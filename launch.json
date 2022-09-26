@@ -1,0 +1,35 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": [
+                // run_synchronization.py
+                // "D:/dekai_intellisys_ws2021-main/traj_pred.2022.4.16/codes/sumo/sumocfg/04-19-21-09-01000-0.08-train-3.sumocfg", 
+                // "--tls-manager", "carla", 
+                // "--sumo-gui",
+                // "--step-length", "0.1", // 0.5 doesn't work
+
+                // spawn_npc_sumo.py
+                // "-n", "10",
+                // "--sumo-gui",
+                // "--tls-manager", "carla", 
+
+                // run_synchronization.py
+                // "D:/codes/tmp/dekai_intellisys_ws2021/gnn_theta/sumo/sumocfg/08-27-19-10-01000-0.09-train_10m_35m-7_debug.sumocfg", // train 
+                // "D:/codes/tmp/dekai_intellisys_ws2021/gnn_theta/sumo/sumocfg/09-11-15-30-00400-0.09-val_10m_35m-7.sumocfg",  //val
+                "sumo_files/sumocfg/09-11-15-30-00400-0.09-val_10m_35m-7.sumocfg",
+                "--tls-manager", "carla", 
+                "--sumo-gui",
+                "--step-length", "0.1" // 0.5 doesn't work
+            ]
+        }
+    ]
+}
