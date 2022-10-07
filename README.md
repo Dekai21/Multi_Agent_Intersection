@@ -1,1 +1,1 @@
-The tutorial for the inference code will be available by 7. Oct.
+The tutorial for the inference code will be available by 15. Oct.
