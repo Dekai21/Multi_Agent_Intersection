@@ -1,4 +1,13 @@
-# Learning Navigation for Multiple Vehicles at Intersections
+# Learning Trajectory Prediction for Multiple Vehicles at Intersections using State and Intention Information
+
+## Abstract
+Traditional approaches to prediction of future trajectory of road agents rely on knowing information about their past trajectory. This work rather relies only on having knowledge of the current state and intended direction to make predictions for multiple vehicles at intersections. Furthermore, message passing of this information between the vehicles provides each one of them a more holistic overview of the environment allowing for a more informed prediction. This approach can further be extended to additionally control the multiple vehicles to drive towards desired paths  by manipulating their intention. Experimental results demonstrate the robustness of our approach both in terms of trajectory prediction and vehicle control at intersections.
+
+![image](images/overview.png)
+
+## Results
+* Controlling vehicles without message passing (baseline) [[video]](https://drive.google.com/file/d/1AdF94g7Gd6ytB8gMKFR0qGHDBQH6qtnC/view?usp=share_link)
+* Controlling vehicles with message passing. [[video]](https://drive.google.com/file/d/1V74KRbbgGNnIJ3vWwqs3vQ9wO5Y01D2S/view?usp=share_link)
 
 ## Setup
 
@@ -23,7 +32,7 @@ conda install -c anaconda lxml
 
 First navigate to the directory where Carla installed, then copy the directories and the scripts in this repository and put them in the correct place as the following image shown. 
 
-![image](setup.png)
+![image](images/setup.png)
 
 *Red: the existing script or directory needs to be replaced*
 
