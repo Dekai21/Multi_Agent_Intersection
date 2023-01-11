@@ -1,13 +1,15 @@
-# Learning Trajectory Prediction for Multiple Vehicles at Intersections using State and Intention Information
+# Multi-Vehicle Trajectory Prediction at Intersections using State and Intention Information
 
 ## Abstract
-Traditional approaches to prediction of future trajectory of road agents rely on knowing information about their past trajectory. This work rather relies only on having knowledge of the current state and intended direction to make predictions for multiple vehicles at intersections. Furthermore, message passing of this information between the vehicles provides each one of them a more holistic overview of the environment allowing for a more informed prediction. This approach can further be extended to additionally control the multiple vehicles to drive towards desired paths  by manipulating their intention. Experimental results demonstrate the robustness of our approach both in terms of trajectory prediction and vehicle control at intersections.
+Traditional approaches to prediction of future trajectory of road agents rely on knowing information about their past trajectory. This work rather relies only on having knowledge of the current state and intended direction to make predictions for multiple vehicles at intersections. Furthermore, message passing of this information between the vehicles provides each one of them a more holistic overview of the environment allowing for a more informed prediction. This is done by training a neural network which takes the state and intent of the multiple vehicles to predict their future trajectory.  Using the intention as an input allows our approach to be extended to additionally control the multiple vehicles to drive towards desired paths. Experimental results demonstrate the robustness of our approach both in terms of trajectory prediction and vehicle control at intersections.
 
 ![image](images/overview.png)
 
 ## Results
-* Controlling vehicles without message passing (baseline) [[video]](https://drive.google.com/file/d/1AdF94g7Gd6ytB8gMKFR0qGHDBQH6qtnC/view?usp=share_link)
-* Controlling vehicles with message passing. [[video]](https://drive.google.com/file/d/1V74KRbbgGNnIJ3vWwqs3vQ9wO5Y01D2S/view?usp=share_link)
+All videos are available in [videos](videos/README.md) folder.
+* Controlling vehicles with message passing. [[video]](https://drive.google.com/file/d/1rURmlHGFAXoQS0onCkoxaD1Rd1pQBk08/view?usp=share_link)
+* Controlling vehicles without message passing (baseline). [[video]](https://drive.google.com/file/d/18dkffrGgGv6HGH1eKuob3FrlcZyirap4/view?usp=share_link)
+* Controlling vehicles based on their past trajectories. [[video]](https://drive.google.com/file/d/1VG2B83JTzf8VbCR6rqJI0loXxL7u45eA/view?usp=share_link)
 
 ## Setup
 

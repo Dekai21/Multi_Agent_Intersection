@@ -1,3 +1,9 @@
 # Videos
 
-In addition to the code, we release 4 videos depicting the online evaluations of the various configurations on CARLA-SUMO co-simulation.
+In addition to the code, we release multiple videos depicting the online evaluations of the various configurations on CARLA-SUMO co-simulation.
+
+* [ours.mp4](https://drive.google.com/file/d/1rURmlHGFAXoQS0onCkoxaD1Rd1pQBk08/view?usp=share_link): This video shows the performance of our model on CARLA. It was trained with collision cost and data augmentation. Data from other vehicles is also aggregated by the model.
+* [no_aggregation.mp4](https://drive.google.com/file/d/18dkffrGgGv6HGH1eKuob3FrlcZyirap4/view?usp=share_link): Similar to our model, however data aggregation from surrounding vehicles is not done. Clearly, the performance deterioration is significant.
+* [no_collision_cost.mp4](https://drive.google.com/file/d/1MzzQ5R4_oDAq1RHWCMg7PMwHJyYhDyao/view?usp=share_link): Similar to our model, however this approach is not trained with the collision cost. One can observe that vehicle to vehicle collisions increase.
+* [no_augmentation_cost.mp4](https://drive.google.com/file/d/1N46ZOt6z1COukUJpjd471URmp9eeV9vq/view?usp=share_link): Also similar to our model, but training is done without any data augmentation. It can be seen that the vehicles have trouble maintaining their lane and wander off to eventually crash with the road boundaries; otherwise with other vehicles if they are in the way.
+* [past_trajectory.mp4](https://drive.google.com/file/d/1VG2B83JTzf8VbCR6rqJI0loXxL7u45eA/view?usp=share_link): This is the model which uses past trajectory information instead of the intention information of the vehicle. Due to this the behaviour of the vehicles is indecisive causing haphazard behaviour and significant collisions.
