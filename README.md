@@ -6,10 +6,8 @@ Traditional approaches to prediction of future trajectory of road agents rely on
 ![image](images/overview.png)
 
 ## Results
-All videos are available in [videos](videos/README.md) folder.
-* Controlling vehicles with message passing. [[video]](https://drive.google.com/file/d/1rURmlHGFAXoQS0onCkoxaD1Rd1pQBk08/view?usp=share_link)
-* Controlling vehicles without message passing (baseline). [[video]](https://drive.google.com/file/d/18dkffrGgGv6HGH1eKuob3FrlcZyirap4/view?usp=share_link)
-* Controlling vehicles based on their past trajectories. [[video]](https://drive.google.com/file/d/1VG2B83JTzf8VbCR6rqJI0loXxL7u45eA/view?usp=share_link)
+* Controlling vehicles without message passing (baseline) [[video]](https://drive.google.com/file/d/1AdF94g7Gd6ytB8gMKFR0qGHDBQH6qtnC/view?usp=share_link)
+* Controlling vehicles with message passing. [[video]](https://drive.google.com/file/d/1V74KRbbgGNnIJ3vWwqs3vQ9wO5Y01D2S/view?usp=share_link)
 
 ## Setup
 
@@ -60,3 +58,22 @@ cd ${Carla_folder}/Co-Simulation/Sumo
 
 python run_synchronization.py  sumo_files/sumocfg/09-11-15-30-00400-0.09-val_10m_35m-7.sumocfg  --tls-manager carla  --sumo-gui  --step-length 0.1
 ```
+
+## Try to Train Your Model
+In this repository, we also release the code for generating data from the SUMO simulator and training the model on your own. 
+### 1) Generate the dataset from SUMO
+First, you can use generate_csv.py to generate the training set and validation set from SUMO by running:
+```bash
+python generate_csv.py --num_seconds ${length of the generated sequence (unit: second)} --split ${train or val}
+```
+The data (.csv format) will be generated in `csv` folder.
+
+### 2) Train the model
+Once the training set and validation set are obtained, you can begin to train your model by running:
+```bash
+python train_gnn.py --train_folder ${path to the training set} --val_folder ${path to the validation set} --epoch ${number of total training epochs}
+```
+Once the training process is finished, you can find the trained weights in `trained_params` folder. 
+
+### 3) Run the inference on CARLA-SUMO co-simulation
+If the above steps all work properly, now you can use the weights trained on your own to control the vehicles at the intersection as we showed you before.
