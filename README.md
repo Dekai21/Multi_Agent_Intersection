@@ -12,9 +12,11 @@ Traditional approaches to prediction of future trajectory of road agents rely on
 ## Setup
 
 ### 1) Packages Install
+First you need to create a new environment and install some packages by running the following commands:
 
 ``` bash
 conda create -n mvn python=3.7
+conda activate mvn
 conda install pytorch==1.11.0 torchvision==0.12.0 torchaudio==0.11.0 cudatoolkit=11.3 -c pytorch
 conda install pyg -c pyg
 conda install matplotlib
@@ -23,12 +25,33 @@ conda install -c anaconda lxml
 ```
 
 ### 2) Software Install
-* CARLA: 0.9.10
-* SUMO: 1.13.0
+This research project is based on the SUMO-CARLA co-simulation, so you need to install these two traffic simulation software on your machine. More information about this co-simulation setup is available [here](https://carla.readthedocs.io/en/latest/adv_sumo/).
+* CARLA: 0.9.10 [[download](https://github.com/carla-simulator/carla/releases/tag/0.9.10/)] [[download](https://carla.readthedocs.io/en/latest/download/)]
+* SUMO: 1.13.0 [[install](https://sumo.dlr.de/docs/Installing/index.html)]
+
+In case you don't have the administration rights to install SUMO, you could install it by running:
+```bash
+pip install eclipse-sumo
+```
+After that, you could check if the installation is successful. For CARLA, you could run:
+```bash
+cd ${Carla_folder}
+# Navigate to the CARLA folder, e.g. cd /home/stud/zhud/Downloads/CARLA_0.9.10
+
+bash CarlaUE4.sh    # Linux
+# If you use Windows, execute CarlaUE4.exe
+```
+Then you should be able to see a city scenario shown in CARLA. As for SUMO, after running
+```bash
+sumo-gui
+```
+in the terminal, you should be able to see a empty window of SUMO.
 
 ## Run the Inference code
 
 ### 1) Put the inference code and the map in place
+
+The code in this project is partially developed on top of the official code of CARLA-SUMO co-simulation, thus some official scripts need to be replaced by the files in this repository.
 
 First navigate to the directory where Carla installed, then copy the directories and the scripts in this repository and put them in the correct place as the following image shown. 
 
@@ -41,23 +64,39 @@ First navigate to the directory where Carla installed, then copy the directories
 
 ### 2) Activate our map in CARLA
 
-First execute carla.exe or carla.sh, then run the following commands: 
+In this project, we create an intersection scenario. The 3D map of this scenario can be activated by: 
 ```bash
 conda activate mvn
 
-cd ${Carla_folder}/PythonAPI/util
+cd ${Carla_folder}/PythonAPI/util   # e.g. cd /home/stud/zhud/Downloads/CARLA_0.9.10/PythonAPI/util
 
 python config.py -x ../../Co-Simulation/Sumo/sumo_files/map/map_15m.xodr
 ```
 Now the intersection scenario should be already ativated!
 
 ### 3) Run the inference code
-If the above steps all work properly, we can finally run the inference code to control the vehicles at this intersection, just run the following commands:
+First we need to set the environment variable `SUMO_HOME` properly, which should be the location of SUMO installation. If you installed SUMO from pip, you can get the location by running:
 ```bash
-cd ${Carla_folder}/Co-Simulation/Sumo
-
-python run_synchronization.py  sumo_files/sumocfg/09-11-15-30-00400-0.09-val_10m_35m-7.sumocfg  --tls-manager carla  --sumo-gui  --step-length 0.1
+pip show eclipse-sumo
+# On our machine, this path is: /usr/stud/zhud/miniconda3/envs/mvn/lib/python3.7/site-packages/sumo
 ```
+Then set `SUMO_HOME` by:
+```bash
+export SUMO_HOME=${SUMO location}
+# e.g. export SUMO_HOME=/usr/stud/zhud/miniconda3/envs/mvn/lib/python3.7/site-packages/sumo
+```
+Note: if you meet the problem of loading `traci` module (e.g. ImportError: No module named traci), you should check if `SUMO_HOME` is set properly.
+
+If the above steps all work properly, we can finally run the inference code to control the vehicles at this intersection! Just run the following commands:
+```bash
+cd ${Carla_folder}/Co-Simulation/Sumo   
+# e.g. cd /home/stud/zhud/Downloads/CARLA_0.9.10/Co-Simulation/Sumo
+
+python run_synchronization.py  ${SUMO_config_file}  --tls-manager carla  --sumo-gui  --step-length ${step_length} --pretrained-weights ${path_to_pretrained_weights}
+
+# e.g. python run_synchronization.py  sumo_files/sumocfg/09-11-15-30-00400-0.09-val_10m_35m-7.sumocfg  --tls-manager carla  --sumo-gui  --step-length 0.1  --pretrained-weights  trained_params_archive/sumo_with_mpc_online_control/model_rot_gnn_mtl_wp_sumo_0911_e3_1910.pth
+```
+Now you should be able to see some vehicles appear and start moving, and the scenarios in SUMO and CARLA should be synchronized.
 
 ## Try to Train Your Model
 In this repository, we also release the code for generating data from the SUMO simulator and training the model on your own. 
