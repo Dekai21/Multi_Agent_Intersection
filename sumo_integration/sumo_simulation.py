@@ -18,7 +18,7 @@ import os
 
 import sys
 
-sys.path.append(os.path.join('C:/Users/ZHD1ABT/Downloads/sumo-1.13.0', 'tools'))
+sys.path.append(os.path.join(os.environ['SUMO_HOME'], 'tools')) # for finding traci module
 
 import carla  # pylint: disable=import-error
 import sumolib  # pylint: disable=import-error
@@ -27,8 +27,8 @@ import traci  # pylint: disable=import-error
 from .constants import INVALID_ACTOR_ID
 
 import lxml.etree as ET  # pylint: disable=import-error
-from util_0907 import get_intention_from_vehicle_id, get_intention_vector, GNN, rotation_matrix_back, GNN_mtl, GNN_mtl_gnn, update_trajs, \
-    encoding_scenario_features, transform_sumo2carla, NORMALIZED_CENTER, get_yaw, remove_vehicles, GNN_mtl_mlp
+from utils import rotation_matrix_back, GNN_mtl_mlp, GNN_mtl_gnn, update_trajs, \
+    encoding_scenario_features, transform_sumo2carla, NORMALIZED_CENTER, get_yaw, remove_vehicles
 import torch
 import pickle as pkl
 import numpy as np
@@ -318,7 +318,7 @@ class SumoSimulation(object):
     """
     SumoSimulation is responsible for the management of the sumo simulation.
     """
-    def __init__(self, cfg_file, step_length, host=None, port=None, sumo_gui=False, client_order=1):
+    def __init__(self, cfg_file, step_length, host=None, port=None, sumo_gui=False, client_order=1, pretrained=''):
         if sumo_gui is True:
             sumo_binary = sumolib.checkBinary('sumo-gui')
         else:
@@ -362,7 +362,7 @@ class SumoSimulation(object):
         self.sumo_time = 0
         self.model = GNN_mtl_gnn(hidden_channels=128)
         # self.model = GNN_mtl_mlp(hidden_channels=128)
-        checkpoint_dir = "trained_params_archive/sumo_with_mpc_online_control/model_rot_gnn_mtl_wp_sumo_0911_e3_1910.pth"
+        checkpoint_dir = pretrained if len(pretrained)>0 else None
         self.device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
         if checkpoint_dir:
             checkpoint = torch.load(checkpoint_dir, map_location=torch.device('cpu'))
@@ -545,18 +545,12 @@ class SumoSimulation(object):
         x, tgt_agent_ids = encoding_scenario_features(trajs, time)
         num_tgt_agent = x.shape[0]
         if num_tgt_agent > 0:
-            # pdb.set_trace()
-            edge_indexs = torch.tensor([[x,y] for x in range(num_tgt_agent) for y in range(num_tgt_agent)]).T.to(self.device)
+            edge_indexs = torch.tensor([[x,y] for x in range(num_tgt_agent) for y in range(num_tgt_agent)]).T.to(self.device) # GNN
             # edge_indexs = torch.tensor([[x,x] for x in range(num_tgt_agent)]).T.to(device)  # MLP
-            
             # n_collision += collision_detect(x, tgt_agent_ids, dict_collision, step)
             transform_sumo2carla(x)
             x = torch.tensor(x).float().to(self.device)
-            # g_data = Data(x=x, edge_indexs = edge_indexs)
-
-             # g_data= get_graph_data(x, num_tgt_agent, num_agent, edge_indexs)
-            out = self.model(x[:,[0,1,4,5,6]], edge_indexs)     # out.shape = [tgt, len*2]    # origin int
-            # out = self.model(x[:,[0,1,6,5,4]], edge_indexs)     # out.shape = [tgt, len*2]
+            out = self.model(x[:,[0,1,4,5,6]], edge_indexs)     # input: [x, y, intention(3-bit)], out.shape = [tgt, len*2]
 
             for tgt in range(num_tgt_agent):
                 curr_x, curr_y = traci.vehicle.getPosition(tgt_agent_ids[tgt])
@@ -564,28 +558,25 @@ class SumoSimulation(object):
                 dist = np.linalg.norm(curr_pos - NORMALIZED_CENTER)
                 vehicle_id = tgt_agent_ids[tgt]
                 if dist < 30:
+                    # Once the vehicles enter the central area (radius <= 30m), their control is taken over by GNN.
                     if vehicle_id not in self.control_ids:
                         self.control_ids.append(vehicle_id)
-                    # delta_x, delta_y = get_average_offset(out[i_tgt_agent, :])
                     _local_delta = out[tgt].reshape(30,2).detach().cpu().numpy()
-                    local_delta = _local_delta[0].reshape(2,1)
-                    last_delta = _local_delta[-1].reshape(2,1)
+                    local_delta = _local_delta[0].reshape(2,1)  # first step, [[x], [y]]
+                    last_delta = _local_delta[-1].reshape(2,1)  # last(30-th) step, [[x], [y]]
                     if last_delta[1,0] > 1:
-                        local_delta[1,0] = max(1e-8, local_delta[1,0])
+                        local_delta[1,0] = max(1e-8, local_delta[1,0])  # Avoiding reverse driving.
                     else:
-                        local_delta[1,0] = 1e-8
+                        local_delta[1,0] = 1e-8     # Filtering small noise.
                         local_delta[0,0] = 1e-10
-                    # local_delta = out[tgt].reshape(30,2)[0].detach().cpu().numpy().reshape(2,1)
                     yaw = x[tgt, 3].detach().cpu().item()
                     rotation_back = rotation_matrix_back(yaw)
                     global_delta = (rotation_back @ local_delta).squeeze()   # [2]
                     global_delta[1] *= -1   # carla -> sumo
                     
-                    # delta_x, delta_y = motion_filter(delta_x, delta_y, vehicle_id, trajs)
                     pos = traci.vehicle.getPosition(vehicle_id)
                     next_x = pos[0] + global_delta[0]
                     next_y = pos[1] + global_delta[1]
-                    # angle = np.rad2deg(out[tgt, 3].detach().cpu().numpy()) + 90
                     angle = get_yaw(tgt_agent_ids[tgt], np.array([next_x, next_y]), self.yaw_dict)
                     try:
                         traci.vehicle.moveToXY(vehicle_id, edgeID=-1, lane=-1, x=next_x, y=next_y, angle=angle, keepRoute=2)
