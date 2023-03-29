@@ -10,10 +10,6 @@ from tqdm import trange
 
 from utils.config import *
 
-if sys.platform == 'win32':
-    sys.path.append(os.path.join('C:/Users/ZHD1ABT/Downloads/sumo-1.13.0', 'tools'))
-    sys.path.append(os.path.join('C:/Users/ZHD1ABT/Downloads/sumo-1.13.0', 'bin'))
-
 
 def delete_first_two_lines(filename: str):
     """
@@ -253,7 +249,7 @@ def generate_routefile(rou_xml_filename: str = '04-16-22-01-00800-0.08-val-4',
 
 
 def generate_sumocfg(rou_xml_filename: str = '04-16-22-01-00800-0.08-val-4')-> str:
-
+    os.makedirs('sumo/sumocfg', exist_ok=True)
     sumocfg_filename = f"sumo/sumocfg/{rou_xml_filename}.sumocfg"
     with open(sumocfg_filename, "w") as sumocfg:
         print(f"""<?xml version="1.0" encoding="UTF-8"?>

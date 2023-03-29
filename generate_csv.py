@@ -8,10 +8,6 @@ from utils.config import DT, OBS_LEN, PRED_LEN, SAMPLE_RATE
 from utils.generate_csv_utils import (generate_csv_from_fcd, generate_fcd,
                                       generate_routefile, generate_sumocfg)
 
-if sys.platform == 'win32':
-    sys.path.append(os.path.join('C:/Users/ZHD1ABT/Downloads/sumo-1.13.0', 'tools'))
-    sys.path.append(os.path.join('C:/Users/ZHD1ABT/Downloads/sumo-1.13.0', 'bin'))
-
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description="")
