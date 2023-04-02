@@ -29,6 +29,7 @@ class P:
     NX = 4  # state vector: z = [x, y, v, phi]
     NU = 2  # input vector: u = [acceleration, steer]
     T = 3  # finite time horizon length
+    T_aug = 30  # finite time horizon length
     # Dekai: if T is 1, the vehicle would have a larger turning radius
 
     # MPC config
@@ -259,7 +260,37 @@ def linear_mpc_control(z_ref, z0, a_old, delta_old):
     return a_old, delta_old, x, y, yaw, v
 
 
-def predict_states_in_T_step(z0: list, a: np.ndarray, delta: np.ndarray, z_ref: np.ndarray):
+def linear_mpc_control_data_aug(z_ref, z0, a_old, delta_old):
+    """
+    linear mpc controller
+    :param z_ref: reference trajectory in T steps
+    :param z0: initial state vector
+    :param a_old: acceleration of T steps of last time
+    :param delta_old: delta of T steps of last time
+    :return: acceleration and delta strategy based on current information
+    """
+
+    if a_old is None or delta_old is None:
+        a_old = [0.0] * P.T_aug
+        delta_old = [0.0] * P.T_aug
+
+    x, y, yaw, v = None, None, None, None
+
+    for k in range(P.iter_max):
+        z_bar = predict_states_in_T_step(z0, a_old, delta_old, z_ref, pred_len=P.T_aug)
+        a_rec, delta_rec = a_old[:], delta_old[:]
+        a_old, delta_old, x, y, yaw, v = solve_linear_mpc(z_ref, z_bar, z0, delta_old, pred_len=P.T_aug)
+
+        du_a_max = max([abs(ia - iao) for ia, iao in zip(a_old, a_rec)])
+        du_d_max = max([abs(ide - ido) for ide, ido in zip(delta_old, delta_rec)])
+
+        if max(du_a_max, du_d_max) < P.du_res:
+            break
+
+    return a_old, delta_old, x, y, yaw, v
+
+
+def predict_states_in_T_step(z0: list, a: np.ndarray, delta: np.ndarray, z_ref: np.ndarray, pred_len: int=P.T):
     """
     given the current state, using the acceleration and delta strategy of last time,
     predict the states of vehicle in T steps.
@@ -277,7 +308,7 @@ def predict_states_in_T_step(z0: list, a: np.ndarray, delta: np.ndarray, z_ref: 
 
     node = Node(x=z0[0], y=z0[1], v=z0[2], yaw=z0[3])
 
-    for ai, di, i in zip(a, delta, range(1, P.T + 1)):
+    for ai, di, i in zip(a, delta, range(1, pred_len + 1)):
         node.update(ai, di, 1.0)    # 1.0 is forward direction
         z_bar[0, i] = node.x
         z_bar[1, i] = node.y
@@ -357,7 +388,7 @@ def calc_linear_discrete_model(v, phi, delta):
     return A, B, C
 
 
-def solve_linear_mpc(z_ref: np.ndarray, z_bar: np.ndarray, z0: list, d_bar: np.ndarray):
+def solve_linear_mpc(z_ref: np.ndarray, z_bar: np.ndarray, z0: list, d_bar: np.ndarray, pred_len: int=P.T):
     """
     solve the quadratic optimization problem using cvxpy, solver: OSQP
     :param z_ref: [4, 7], reference trajectory (desired trajectory: [x, y, v, yaw])
@@ -367,13 +398,13 @@ def solve_linear_mpc(z_ref: np.ndarray, z_bar: np.ndarray, z0: list, d_bar: np.n
     :return: optimal acceleration and steering strategy
     """
 
-    z = cvxpy.Variable((P.NX, P.T + 1))
-    u = cvxpy.Variable((P.NU, P.T))
+    z = cvxpy.Variable((P.NX, pred_len + 1))
+    u = cvxpy.Variable((P.NU, pred_len))
 
     cost = 0.0
     constrains = []
 
-    for t in range(P.T):
+    for t in range(pred_len):
         cost += cvxpy.quad_form(u[:, t], P.R)
         # cost += cvxpy.quad_form(z_ref[:, t] - z[:, t], P.Q)
 
@@ -381,11 +412,11 @@ def solve_linear_mpc(z_ref: np.ndarray, z_bar: np.ndarray, z0: list, d_bar: np.n
 
         constrains += [z[:, t + 1] == A @ z[:, t] + B @ u[:, t] + C]
 
-        if t < P.T - 1:
+        if t < pred_len - 1:
             cost += cvxpy.quad_form(u[:, t + 1] - u[:, t], P.Rd)
             # constrains += [cvxpy.abs(u[1, t + 1] - u[1, t]) <= P.steer_change_max * P.dt]
 
-    cost += cvxpy.quad_form(z_ref[:, P.T] - z[:, P.T], P.Qf)
+    cost += cvxpy.quad_form(z_ref[:, pred_len] - z[:, pred_len], P.Qf)
 
     constrains += [z[:, 0] == z0]
     # constrains += [z[2, :] <= P.speed_max]
