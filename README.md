@@ -22,6 +22,7 @@ conda install pyg -c pyg
 conda install matplotlib
 conda install -c conda-forge cvxpy
 conda install -c anaconda lxml
+conda install -c anaconda pandas
 ```
 
 ### 2) Software Install
@@ -98,21 +99,47 @@ python run_synchronization.py  ${SUMO_config_file}  --tls-manager carla  --sumo-
 ```
 Now you should be able to see some vehicles appear and start moving, and the scenarios in SUMO and CARLA should be synchronized.
 
-## Try to Train Your Model
+## Training
 In this repository, we also release the code for generating data from the SUMO simulator and training the model on your own. 
 ### 1) Generate the dataset from SUMO
 First, you can use generate_csv.py to generate the training set and validation set from SUMO by running:
 ```bash
 python generate_csv.py --num_seconds ${length of the generated sequence (unit: second)} --split ${train or val}
+# e.g. python generate_csv.py --num_seconds 1000 --split train
 ```
 The data (.csv format) will be generated in `csv` folder.
 
-### 2) Train the model
+Note: the SUMO map used in the above execution is `sumo/map/simple_separate_10m.net.xml`. In case you want to design a new map, you can use `netedit` by running:
+```bash
+netedit     # or execute netedit.exe on Windows
+```
+
+### 2) Preprocess the data
+In this project, we use MPC to augment the training set, which aims to improve the robustness of vehicle when it deviate from the center of the lane. Please run the following command in the terminal:
+```bash
+python preprocess.py --csv_folder ${csv folder} --pkl_folder ${pkl folder} --num_mpc_aug ${number of MPC data augmentation}
+# e.g. python preprocess.py --csv_folder csv/train --pkl_folder csv/train_pre --num_mpc_aug 2
+# Note: in case you don't want to have MPC data augmentation, set num_mpc_aug to 0,
+# e.g. python preprocess.py --csv_folder csv/train --pkl_folder csv/train_pre --num_mpc_aug 0
+```
+Now the preprocessed data (*.pkl) is available in `pkl folder` folder.
+
+### 3) Train the model
 Once the training set and validation set are obtained, you can begin to train your model by running:
 ```bash
-python train_gnn.py --train_folder ${path to the training set} --val_folder ${path to the validation set} --epoch ${number of total training epochs}
+python train_gnn.py --train_folder ${path to the training set} --val_folder ${path to the validation set} --epoch ${number of total training epochs} --exp_id ${experiment ID} --batch_size ${batch size}
+# e.g. python train_gnn.py --train_folder csv/train_pre --val_folder csv/train_pre --epoch 20 --exp_id sumo_0402 --batch_size 20
 ```
-Once the training process is finished, you can find the trained weights in `trained_params` folder. 
+Once the training process is finished, you can find the trained weights in `trained_params/${exp_id}` folder. 
 
-### 3) Run the inference on CARLA-SUMO co-simulation
+### 4) Run the inference on CARLA-SUMO co-simulation
 If the above steps all work properly, now you can use the weights trained on your own to control the vehicles at the intersection as we showed you before.
+
+```bash
+cd ${Carla_folder}/Co-Simulation/Sumo   
+# e.g. cd /home/stud/zhud/Downloads/CARLA_0.9.10/Co-Simulation/Sumo
+
+python run_synchronization.py  ${SUMO_config_file}  --tls-manager carla  --sumo-gui  --step-length ${step_length} --pretrained-weights ${path_to_pretrained_weights}
+
+# e.g. python run_synchronization.py  sumo_files/sumocfg/09-11-15-30-00400-0.09-val_10m_35m-7.sumocfg  --tls-manager carla  --sumo-gui  --step-length 0.1  --pretrained-weights /home/stud/zhud/Multi_Agent_Intersection/trained_params/sumo_0402/model_gnn_wp_sumo_0402_e3_0010.pth
+```
