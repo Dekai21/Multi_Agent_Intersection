@@ -163,5 +163,6 @@ python run_synchronization.py  ${SUMO_config_file}  --tls-manager carla  --sumo-
 # e.g. python run_synchronization.py  sumo_files/sumocfg/09-11-15-30-00400-0.09-val_10m_35m-7.sumocfg  --tls-manager carla  --sumo-gui  --step-length 0.1  --pretrained-weights /home/stud/zhud/Multi_Agent_Intersection/trained_params/sumo_0402/model_gnn_wp_sumo_0402_e3_0010.pth
 ```
 
-## Reference
-The code of the MPC module in this repository is modified from the code developed by Huiming Zhou et al. in the GitHub repository: https://github.com/zhm-real/MotionPlanning.
+## Resources
+The MPC module used in this repository to control the vehicles is modified from the code developed [here](https://github.com/zhm-real/MotionPlanning). Meanwhile, as mentioned above, the SUMO and CARLA simulators were used for creating the intersection map and conducting the online evaluation. 
+Please refer to the corresponding License of these resources regarding their usage.
