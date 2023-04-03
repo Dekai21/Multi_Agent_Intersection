@@ -79,7 +79,7 @@ cd ${Carla_folder}/PythonAPI/util   # e.g. cd /home/stud/zhud/Downloads/CARLA_0.
 
 python config.py -x ../../Co-Simulation/Sumo/sumo_files/map/map_15m.xodr
 ```
-Now the intersection scenario should be already activated, as depicted in the following image. You can use the mouse and "W", "A", "S", "D" as arrow keys to change your perspective of view.
+Now the intersection scenario should be already activated, as depicted in the following image. You can use the mouse and "W", "A", "S", "D" as arrow keys to change your view perspective.
 ![image](images/carla_intersection.png) 
 
 ### 3) Run the inference code
