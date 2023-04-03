@@ -49,24 +49,24 @@ As for SUMO, after running
 ```bash
 sumo-gui
 ```
-in the terminal, you should be able to see a empty window of SUMO, as depicted in the following image.
+in the terminal, you should be able to see an empty window of SUMO, as depicted in the following image.
 ![image](images/sumo_init.png)
 
 ## Run the Inference code
 
 ### 1) Put the inference code and the map in place
 
-The code in this project is partially developed on top of the official code of CARLA-SUMO co-simulation, thus some official scripts need to be replaced by the files in this repository.
+The code in this project is partially developed on top of the official code of CARLA-SUMO co-simulation. Thus, some official scripts need to be replaced by the files in this repository.
 
-First navigate to the directory where Carla installed, then copy the directories and the scripts in this repository and put them in the correct place as the following image shows. 
+First navigate to the directory where Carla is installed, then copy the directories and the scripts in this repository and put them in the correct place as the following image shows. 
 
 ![image](images/setup.png)
 
 *<font color=red>Red</font>: the scripts that we develop based on the official CARLA code, they need to be replaced by the scripts provided in this repository*
 
-*<font color=green>Green</font>: new created scripts or directories*
+*<font color=green>Green</font>: new created scripts or directories. They are provided in this repository and need to placed in the corresponding locations shown in the figure above*
 
-*<font color=blue>Blue</font>: the original scripts or directories in Carla folder that doesn't need to be replaced*
+*<font color=blue>Blue</font>: the original scripts or directories in the Carla folder that don't need to be replaced*
 
 
 ### 2) Activate our map in CARLA
@@ -79,7 +79,7 @@ cd ${Carla_folder}/PythonAPI/util   # e.g. cd /home/stud/zhud/Downloads/CARLA_0.
 
 python config.py -x ../../Co-Simulation/Sumo/sumo_files/map/map_15m.xodr
 ```
-Now the intersection scenario should be already activated, as depicted in the following image. You can use the mouse and "W", "A", "S", "D" as arrow keys to change your view perspective.
+Now the intersection scenario should have already been activated, as depicted in the following image. You can use the mouse and "W", "A", "S", "D" as arrow keys to change your perspective view.
 ![image](images/carla_intersection.png) 
 
 ### 3) Run the inference code
