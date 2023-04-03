@@ -27,10 +27,10 @@ conda install -c anaconda pandas
 
 ### 2) Software Install
 This research project is based on the SUMO-CARLA co-simulation, so you need to install these two traffic simulation software on your machine. More information about this co-simulation setup is available [here](https://carla.readthedocs.io/en/latest/adv_sumo/).
-* CARLA: 0.9.10 [[download](https://github.com/carla-simulator/carla/releases/tag/0.9.10/)] [[download](https://carla.readthedocs.io/en/latest/download/)]
+* CARLA: 0.9.10 [[download](https://github.com/carla-simulator/carla/releases/tag/0.9.10/)] [[documentation](https://carla.readthedocs.io/en/latest/download/)]
 * SUMO: 1.13.0 [[install](https://sumo.dlr.de/docs/Installing/index.html)]
 
-In case you don't have the administration rights to install SUMO, you could install it by running:
+Alternatively, you could install SUMO by running:
 ```bash
 pip install eclipse-sumo
 ```
@@ -58,9 +58,11 @@ First navigate to the directory where Carla installed, then copy the directories
 
 ![image](images/setup.png)
 
-*Red: the existing script or directory needs to be replaced*
+*<font color=red>Red</font>: the existing script or directory needs to be replaced*
 
-*Green: a new created script or directory*
+*<font color=green>Green</font>: a new created script or directory*
+
+*<font color=blue>Blue</font>: the existing script or directory doesn't need to be replaced*
 
 
 ### 2) Activate our map in CARLA
@@ -73,7 +75,7 @@ cd ${Carla_folder}/PythonAPI/util   # e.g. cd /home/stud/zhud/Downloads/CARLA_0.
 
 python config.py -x ../../Co-Simulation/Sumo/sumo_files/map/map_15m.xodr
 ```
-Now the intersection scenario should be already ativated!
+Now the intersection scenario should be already activated!
 
 ### 3) Run the inference code
 First we need to set the environment variable `SUMO_HOME` properly, which should be the location of SUMO installation. If you installed SUMO from pip, you can get the location by running:
@@ -118,7 +120,9 @@ netedit     # or execute netedit.exe on Windows
 In this project, we use MPC to augment the training set, which aims to improve the robustness of vehicle when it deviate from the center of the lane. Please run the following command in the terminal:
 ```bash
 python preprocess.py --csv_folder ${csv folder} --pkl_folder ${pkl folder} --num_mpc_aug ${number of MPC data augmentation}
+
 # e.g. python preprocess.py --csv_folder csv/train --pkl_folder csv/train_pre --num_mpc_aug 2
+
 # Note: in case you don't want to have MPC data augmentation, set num_mpc_aug to 0,
 # e.g. python preprocess.py --csv_folder csv/train --pkl_folder csv/train_pre --num_mpc_aug 0
 ```
@@ -128,6 +132,7 @@ Now the preprocessed data (*.pkl) is available in `pkl folder` folder.
 Once the training set and validation set are obtained, you can begin to train your model by running:
 ```bash
 python train_gnn.py --train_folder ${path to the training set} --val_folder ${path to the validation set} --epoch ${number of total training epochs} --exp_id ${experiment ID} --batch_size ${batch size}
+
 # e.g. python train_gnn.py --train_folder csv/train_pre --val_folder csv/train_pre --epoch 20 --exp_id sumo_0402 --batch_size 20
 ```
 Once the training process is finished, you can find the trained weights in `trained_params/${exp_id}` folder. 
