@@ -42,11 +42,15 @@ cd ${Carla_folder}
 bash CarlaUE4.sh    # Linux
 # If you use Windows, execute CarlaUE4.exe
 ```
-Then you should be able to see a city scenario shown in CARLA. As for SUMO, after running
+Then you should be able to see a city scenario shown in CARLA, as depicted in the following image. 
+![image](images/carla_city.png)
+
+As for SUMO, after running
 ```bash
 sumo-gui
 ```
-in the terminal, you should be able to see a empty window of SUMO.
+in the terminal, you should be able to see a empty window of SUMO, as depicted in the following image.
+![image](images/sumo_init.png)
 
 ## Run the Inference code
 
@@ -54,15 +58,15 @@ in the terminal, you should be able to see a empty window of SUMO.
 
 The code in this project is partially developed on top of the official code of CARLA-SUMO co-simulation, thus some official scripts need to be replaced by the files in this repository.
 
-First navigate to the directory where Carla installed, then copy the directories and the scripts in this repository and put them in the correct place as the following image shown. 
+First navigate to the directory where Carla installed, then copy the directories and the scripts in this repository and put them in the correct place as the following image shows. 
 
 ![image](images/setup.png)
 
-*<font color=red>Red</font>: the existing script or directory needs to be replaced*
+*<font color=red>Red</font>: the scripts that we develop based on the official CARLA code, they need to be replaced by the scripts provided in this repository*
 
-*<font color=green>Green</font>: a new created script or directory*
+*<font color=green>Green</font>: new created scripts or directories*
 
-*<font color=blue>Blue</font>: the existing script or directory doesn't need to be replaced*
+*<font color=blue>Blue</font>: the original scripts or directories in Carla folder that doesn't need to be replaced*
 
 
 ### 2) Activate our map in CARLA
@@ -75,7 +79,8 @@ cd ${Carla_folder}/PythonAPI/util   # e.g. cd /home/stud/zhud/Downloads/CARLA_0.
 
 python config.py -x ../../Co-Simulation/Sumo/sumo_files/map/map_15m.xodr
 ```
-Now the intersection scenario should be already activated!
+Now the intersection scenario should be already activated, as depicted in the following image. You can use the mouse and "W", "A", "S", "D" as arrow keys to change your perspective of view.
+![image](images/carla_intersection.png) 
 
 ### 3) Run the inference code
 First we need to set the environment variable `SUMO_HOME` properly, which should be the location of SUMO installation. If you installed SUMO from pip, you can get the location by running:
@@ -88,7 +93,7 @@ Then set `SUMO_HOME` by:
 export SUMO_HOME=${SUMO location}
 # e.g. export SUMO_HOME=/usr/stud/zhud/miniconda3/envs/mvn/lib/python3.7/site-packages/sumo
 ```
-Note: if you meet the problem of loading `traci` module (e.g. ImportError: No module named traci), you should check if `SUMO_HOME` is set properly.
+Note: if you meet the problem of loading `traci` module (e.g. ImportError: No module named traci), you should check if `SUMO_HOME` path is set properly.
 
 If the above steps all work properly, we can finally run the inference code to control the vehicles at this intersection! Just run the following commands:
 ```bash
@@ -99,13 +104,17 @@ python run_synchronization.py  ${SUMO_config_file}  --tls-manager carla  --sumo-
 
 # e.g. python run_synchronization.py  sumo_files/sumocfg/09-11-15-30-00400-0.09-val_10m_35m-7.sumocfg  --tls-manager carla  --sumo-gui  --step-length 0.1  --pretrained-weights  trained_params_archive/sumo_with_mpc_online_control/model_rot_gnn_mtl_wp_sumo_0911_e3_1910.pth
 ```
-Now you should be able to see some vehicles appear and start moving, and the scenarios in SUMO and CARLA should be synchronized.
+Now you should be able to see some vehicles appear and start moving, and the scenarios in SUMO and CARLA should be synchronized, as depicted in the following image (left: SUMO, right: CARLA).
+![image](images/sumo_carla_simu.png)
 
 ## Training
 In this repository, we also release the code for generating data from the SUMO simulator and training the model on your own. 
 ### 1) Generate the dataset from SUMO
-First, you can use generate_csv.py to generate the training set and validation set from SUMO by running:
+First, you can use `generate_csv.py` provided in this repository to generate the training set and validation set from SUMO by running:
 ```bash
+cd ${folder of this repository} 
+# e.g. cd /home/stud/zhud/Multi_Agent_Intersection
+
 python generate_csv.py --num_seconds ${length of the generated sequence (unit: second)} --split ${train or val}
 # e.g. python generate_csv.py --num_seconds 1000 --split train
 ```
@@ -117,8 +126,13 @@ netedit     # or execute netedit.exe on Windows
 ```
 
 ### 2) Preprocess the data
-In this project, we use MPC to augment the training set, which aims to improve the robustness of vehicle when it deviate from the center of the lane. Please run the following command in the terminal:
+In this project, we use MPC to augment the training set, which aims to improve the robustness of vehicle when it deviate from the center of the lane. 
+The script `preprocess.py` is provided in this repository.
+Please run the following command in the terminal:
 ```bash
+cd ${folder of this repository} 
+# e.g. cd /home/stud/zhud/Multi_Agent_Intersection
+
 python preprocess.py --csv_folder ${csv folder} --pkl_folder ${pkl folder} --num_mpc_aug ${number of MPC data augmentation}
 
 # e.g. python preprocess.py --csv_folder csv/train --pkl_folder csv/train_pre --num_mpc_aug 2
@@ -148,3 +162,6 @@ python run_synchronization.py  ${SUMO_config_file}  --tls-manager carla  --sumo-
 
 # e.g. python run_synchronization.py  sumo_files/sumocfg/09-11-15-30-00400-0.09-val_10m_35m-7.sumocfg  --tls-manager carla  --sumo-gui  --step-length 0.1  --pretrained-weights /home/stud/zhud/Multi_Agent_Intersection/trained_params/sumo_0402/model_gnn_wp_sumo_0402_e3_0010.pth
 ```
+
+## Reference
+The code of the MPC module in this repository is modified from the code developed by Huiming Zhou et al. in the GitHub repository: https://github.com/zhm-real/MotionPlanning.

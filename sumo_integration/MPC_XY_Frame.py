@@ -1,6 +1,6 @@
 """
 Linear MPC controller (X-Y frame)
-author: huiming zhou
+Code modified from MPC_XY_Frame.py developed by Huiming Zhou et al.
 link: https://github.com/zhm-real/MotionPlanning/blob/master/Control/MPC_XY_Frame.py
 """
 
