@@ -31,7 +31,7 @@ model_path = f"trained_params/{exp_id}"
 os.makedirs(model_path, exist_ok=True)
 
 mlp = False
-collision_penalty = True
+collision_penalty = False
 
 train_dataset = CarDataset(preprocess_folder=train_folder, mlp=False, mpc_aug=True)
 val_dataset = CarDataset(preprocess_folder=val_folder, mlp=False, mpc_aug=True)
@@ -130,14 +130,14 @@ def train(model, device, data_loader, optimizer, collision_penalty=False):
         error = ((gt-out).square().sum(-1) * step_weights).sum(-1)
         loss = (batch.weights * error).nanmean()
             
-        if not collision_penalty:
+        if collision_penalty:
             mask = (batch.edge_index[0,:] < batch.edge_index[1,:])
             _edge = batch.edge_index[:, mask].T   # [edge',2]
             dist = torch.linalg.norm(out[_edge[:,0]] - out[_edge[:,1]], dim=-1)
             dist = dist_threshold - dist[dist < dist_threshold]
-            collision_penalty = dist.square().mean()
+            _collision_penalty = dist.square().mean()
             # print(f"loss: {loss.item()}, collision penalty: {collision_penalty.item()}")
-            loss += collision_penalty * 20
+            loss += _collision_penalty * 20
 
         loss.backward()
         optimizer.step()
@@ -170,7 +170,14 @@ def evaluate(model, device, data_loader):
             batch = batch.to(device)
             out = model(batch.x[:,[0,1,4,5,6]], batch.edge_index)
             out = out.reshape(-1,30,2)  # [v, 30, 2]
-            gt = batch.y.reshape(-1,30,6)[:,:,[4,5]]
+            
+            out = out.permute(0,2,1)    # [v, 2, pred]
+            yaw = batch.x[:,3].detach().cpu().numpy()
+            rotations = torch.stack([rotation_matrix_back(yaw[i])  for i in range(batch.x.shape[0])]).to(out.device)
+            out = torch.bmm(rotations, out).permute(0,2,1)       # [v, pred, 2]
+            out += batch.x[:,[0,1]].unsqueeze(1)
+            
+            gt = batch.y.reshape(-1,30,6)[:,:,[0, 1]]
             _error = (gt-out).square().sum(-1)
             error = _error.clone() ** 0.5
             _error = (_error * step_weights).sum(-1)
@@ -178,12 +185,6 @@ def evaluate(model, device, data_loader):
             val_losses.append(val_loss)
             fde.append(error[:,-1])
             ade.append(error.mean(dim=-1))
-
-            out = out.permute(0,2,1)    # [v, 2, pred]
-            yaw = batch.x[:,3].detach().cpu().numpy()
-            rotations = torch.stack([rotation_matrix_back(yaw[i])  for i in range(batch.x.shape[0])]).to(out.device)
-            out = torch.bmm(rotations, out).permute(0,2,1)       # [v, pred, 2]
-            out += batch.x[:,[0,1]].unsqueeze(1)
 
             mask = (batch.edge_index[0,:] < batch.edge_index[1,:])
             _edge = batch.edge_index[:, mask].T   # [edge',2]
