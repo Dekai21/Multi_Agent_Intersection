@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description" content="Multi-Vehicle Trajectory Prediction at Intersections using State and Intention Information">
+  <meta property="og:title" content="Multi-Vehicle Trajectory Prediction at Intersections using State and Intention Information"/>
+  <meta property="og:description" content="Multi-Vehicle Trajectory Prediction at Intersections using State and Intention Information"/>
+  <meta property="og:url" content="https://Dekai21.github.io/Multi_Agent_Intersection/"/>
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+  <!-- <meta property="og:image" content="images/overview.jpg" /> -->
+  <!-- <meta property="og:image:width" content="1245"/> -->
+  <!-- <meta property="og:image:height" content="562"/> -->
+
+
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+  <!-- <meta name="twitter:image" content="images/overview.jpg"> -->
+  <!-- <meta name="twitter:card" content="summary_large_image"> -->
+  <!-- Keywords for your paper to be indexed by-->
+  <meta name="keywords" content="Trajectory prediction, Multi-agent control, Deep learning">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <title>Multi-Vehicle Trajectory Prediction at Intersections using State and Intention Information</title>
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.icon">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+<body>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Multi-Vehicle Trajectory Prediction at Intersections using State and Intention Information</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- Paper authors -->
+              <span class="author-block">
+                <a href="https://dekai21.github.io/" target="_blank">Dekai Zhu*<sup>1</sup></a>,</span>
+                <span class="author-block">
+                <a href="https://cvg.cit.tum.de/members/khamuham" target="_blank">Qadeer Khan*<sup>1,2</sup></a>,</span>
+                <span class="author-block">
+                <a href="https://cvg.cit.tum.de/members/cremers" target="_blank">Daniel Cremers<sup>1,2,3</sup></a></span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">Technical University of Munich<sup>1</sup>, Munich Center for Machine Learning<sup>2</sup>, University of Oxford<sup>3</sup> 
+                <!-- <br> Under reviewed. </span> -->
+              <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution</small></span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                    <!-- Arxiv PDF link -->
+                <span class="link-block">
+                  <a href="https://cvg.cit.tum.de/_media/spezial/bib/multivehicle2023.pdf" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+
+              <!-- Supplementary PDF link -->
+              <span class="link-block">
+                <a href="https://drive.google.com/file/d/1bResl0UEwL5U_XMfeC4Uv2w9bK-DJbH3/view" target="_blank"
+                class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                  <i class="fas fa-file-pdf"></i>
+                </span>
+                <span>Supplementary</span>
+                </a>
+              </span>
+
+              <!-- Github link -->
+              <span class="link-block">
+                <a href="https://github.com/Dekai21/Multi_Agent_Intersection" target="_blank"
+                class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                  <i class="fab fa-github"></i>
+                </span>
+                <span>Code</span>
+                </a>
+              </span>
+
+                <!-- ArXiv abstract Link -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2301.02561" target="_blank"
+                class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                  <i class="ai ai-arxiv"></i>
+                </span>
+                <span>arXiv</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero teaser" id="Video-Introduction">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="title is-3">Our Model</h2>
+      <video poster="" id="tree" autoplay controls muted loop height="100%">
+        <!-- Your video here -->
+        <source src="images/gnn_with_mpc_with_cost.MP4"
+        type="video/mp4">
+      </video>
+      <div class="content has-text-justified">
+        <p>
+          This video shows the performance of our model on CARLA. It was trained with collision cost and data augmentation. Data from other vehicles is also aggregated by the model.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="hero teaser" id="Video-Introduction-2">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="title is-3">Baseline Model</h2>
+      <video poster="" id="tree" autoplay controls muted loop height="100%">
+        <!-- Your video here -->
+        <source src="images/mlp_new.MP4"
+        type="video/mp4">
+      </video>
+      <div class="content has-text-justified">
+        <p>
+          Similar to our model, however data aggregation from surrounding vehicles is not done. Clearly, the performance deterioration is significant.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Paper abstract -->
+<section class="section hero is-small" id="Abstract">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Traditional approaches to predicting the future trajectories of road agents typically rely on historical trajectory information. In contrast, our work introduces a novel strategy by leveraging a graph neural network that solely depends on the current state and intended direction to forecast the trajectories of multiple agents at intersections. Message passing of information between the multiple vehicles provides a more holistic overview of the environment. Importantly, the incorporation of intention information equips the trained model with the capability to be easily deployed in multi-agent control scenarios.  Our experiment shows that the model's output can properly adapt to changing intentions. This would not be possible with only past trajectory information. To the best of our knowledge, this work is among the first to provide a thorough investigation and discussion into the disparity between offline metrics and online metrics for the task of multi-agent control. We particularly show why conducting only offline evaluation would not suffice thereby necessitating online evaluation. Therefore, we demonstrate the superiority of utilizing intention information rather than  past trajectories especially in online scenarios. Deep learning models are known for suffering from the problem of domain shift when the training and testing distributions are different. Therefore,  we additionally show our model's robustness to domain shifts  through experiments conducted on two distinct simulation platforms, SUMO and CARLA.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div class="container is-max-desktop">
+    <div class="columns is-centered is-four-fifths">
+      <div class="column is-four-fifths is-centered">
+          <img src="images/overview.png" alt="MY ALT TEXT"/>
+      </div> 
+    </div>
+  </div>
+</section>
+
+<!-- <section>
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+      <p>
+      Our proposed U Attention Block:
+      </p>
+      </div>
+    </div>
+  </div>
+  <br /> 
+  <div class="container is-max-desktop">
+    <div class="columns is-centered is-four-fifths">
+      <div class="column is-four-fifths is-centered">
+        <img src="images/U-Attention_Block.png" alt="MY ALT TEXT"/>
+      </div> 
+    </div>
+  </div>
+  <br /> 
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+      <p>
+        Please refer to <a href="https://github.com/yininghase/multi-agent-control/blob/main/supplementary.pdf" target="_blank">here</a> for the detailed explanation of U Attention Block.
+      </p>
+      </div>
+    </div>
+  </div>  
+  <br /> 
+  <br /> 
+</section> -->
+
+
+<!-- <section class="hero is-small is-light" id="Results-of-our-Model">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3">
+        Results of our Model
+      </h2>
+      <div id="results-carousel" class="carousel results-carousel" data-interval="30">
+        <div class="item">
+          <h2 class="subtitle has-text-centered">
+            Scenario 1: 6 Vehicles and 1 Obstacle
+          </h2>
+          <div class="columns is-four-fifths is-centered">
+            <img src="images/IterGNN_UAttentionConv_1.gif" alt="MY ALT TEXT"/>
+          </div>
+        </div>
+        <div class="item">
+          <h2 class="subtitle has-text-centered">
+            Scenario 2: 6 Vehicles and 2 Obstacles
+          </h2>
+          <div class="columns is-four-fifths is-centered">
+            <img src="images/IterGNN_UAttentionConv_2.gif" alt="MY ALT TEXT"/>
+          </div>
+        </div>
+        <div class="item">
+          <h2 class="subtitle has-text-centered">
+            Scenario 3: 6 Vehicles and 3 Obstacles
+          </h2>
+          <div class="columns is-four-fifths is-centered">
+            <img src="images/IterGNN_UAttentionConv_3.gif" alt="MY ALT TEXT"/>
+          </div>
+        </div>
+        <div class="item">
+          <h2 class="subtitle has-text-centered">
+            Scenario 4: 6 Vehicles and 3 Obstacles
+          </h2>
+          <div class="columns is-four-fifths is-centered">
+            <img src="images/IterGNN_UAttentionConv_4.gif" alt="MY ALT TEXT"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br /> 
+</section>
+
+
+<section class="hero is-small"  id="Attention-Mechanism-of-our-Model">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3">
+          Attention Mechanism of our Model
+      </h2>
+      <div class="columns is-centered is-four-fifths">
+        <div class="column is-four-fifths is-centered">
+            <img src="images/IterGNN_UAttentionConv_Show_Attention.gif" alt="MY ALT TEXT"/>
+        </div> 
+      </div>
+      <h2>
+        The GIF above shows how the attention changes when the vehicles are moving. We visualize the mean of attention logits from all the graph attention layers of our model. The rows in the attention matrix correspond to the vehicle of interest. The columns show which vehicles/obstacle is being attended to. A lighter shade in the attention matrix depicts high attention and a darker shade represents lack of attention.
+      </h2>
+    </div>
+  </div>
+  <br /> 
+</section>
+
+
+<section class="hero is-small is-light" id="Comparison-with-Other-Models">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3">
+          Comparison with Other Models
+      </h2>
+      <div id="results-carousel" class="carousel results-carousel" data-interval="30">
+        <div class="item">
+          <table style="table-layout: fixed; word-break: break-all; word-wrap: break-word;" width="100%">
+              <td width="52%">
+                <div class="container">
+                  <h2 class="subtitle has-text-centered"> Our Model</h2>
+                  <div class="columns is-centered">
+                    <img src="./images/IterGNN_UAttentionConv_3.gif">
+                  </div>
+                </div> 
+              </td>
+              <td width="48%">
+                <div class="container">
+                  <table style="table-layout: fixed; word-break: break-all; word-wrap: break-word;">
+                      <tr>
+                        <td width="24%">
+                          <div class="container">
+                            <h2 class="subtitle has-text-centered"> GAINet</h2>
+                            <div class="columns is-centered is-four-fifths">
+                              <img src="./images/IterGNN_GAINet_3.gif">
+                            </div>
+                          </div>
+                        </td>
+                        <td width="24%">
+                          <div class="container">
+                            <h2 class="subtitle has-text-centered"> TransformerConv</h2>
+                            <div class="columns is-centered is-four-fifths">
+                              <img src="./images/IterGNN_TransformerConv_3.gif">
+                            </div>
+                          </div> 
+                        </td>
+                      </tr>
+                      <tr>
+                        <td width="24%">
+                          <div class="container">
+                            <h2 class="subtitle has-text-centered">EdgeConv</h2>
+                            <div class="columns is-centered is-four-fifths">
+                              <img src="./images/IterGNN_EdgeConv_3.gif">
+                            </div>
+                          </div> 
+                        </td>
+                        <td width="24%">
+                          <div class="container">
+                            <h2 class="subtitle has-text-centered">No Edge</h2>
+                            <div class="columns is-centered is-four-fifths">
+                              <img src="./images/IterGNN_UAttentionConv_NoEdge_3.gif">
+                            </div>
+                          </div> 
+                        </td>
+                      </tr>
+                  </table>
+                </div>
+              </td>
+          </table>
+        </div>
+        <div class="item">
+          <table style="table-layout: fixed; word-break: break-all; word-wrap: break-word;" width="100%">
+              <td width="52%">
+                <div class="container">
+                  <h2 class="subtitle has-text-centered"> Our Model</h2>
+                  <div class="columns is-centered">
+                    <img src="./images/IterGNN_UAttentionConv_4.gif">
+                  </div>
+                </div> 
+              </td>
+              <td width="48%">
+                <div class="container">
+                  <table style="table-layout: fixed; word-break: break-all; word-wrap: break-word;">
+                      <tr>
+                        <td width="24%">
+                          <div class="container">
+                            <h2 class="subtitle has-text-centered"> GAINet</h2>
+                            <div class="columns is-centered is-four-fifths">
+                              <img src="./images/IterGNN_GAINet_4.gif">
+                            </div>
+                          </div>
+                        </td>
+                        <td width="24%">
+                          <div class="container">
+                            <h2 class="subtitle has-text-centered"> TransformerConv</h2>
+                            <div class="columns is-centered is-four-fifths">
+                              <img src="./images/IterGNN_TransformerConv_4.gif">
+                            </div>
+                          </div> 
+                        </td>
+                      </tr>
+                      <tr>
+                        <td width="24%">
+                          <div class="container">
+                            <h2 class="subtitle has-text-centered">EdgeConv</h2>
+                            <div class="columns is-centered is-four-fifths">
+                              <img src="./images/IterGNN_EdgeConv_4.gif">
+                            </div>
+                          </div> 
+                        </td>
+                        <td width="24%">
+                          <div class="container">
+                            <h2 class="subtitle has-text-centered">No Edge</h2>
+                            <div class="columns is-centered is-four-fifths">
+                              <img src="./images/IterGNN_UAttentionConv_NoEdge_4.gif">
+                            </div>
+                          </div> 
+                        </td>
+                      </tr>
+                  </table>
+                </div>
+              </td>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br /> 
+</section> -->
+
+
+<!--BibTex citation -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>
+      @article{zhu2023multi,
+        title={Multi-Vehicle Trajectory Prediction at Intersections using State and Intention Information},
+        author={Zhu, Dekai and Khan, Qadeer and Cremers, Daniel},
+        journal={arXiv preprint arXiv:2301.02561},
+        year={2023}
+      }</code></pre>
+  </div>
+</section>
+<!--End BibTex citation -->
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> under the license <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>. We thank the authors for the open-source code.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+  
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+  </body>
+  </html>
