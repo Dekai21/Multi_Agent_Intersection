@@ -121,44 +121,6 @@
 </section>
 
 
-<section class="hero teaser" id="Video-Introduction">
-  <div class="container is-max-desktop">
-    <div class="hero-body">
-      <h2 class="title is-3">Our Model</h2>
-      <video poster="" id="tree" autoplay controls muted loop height="100%">
-        <!-- Your video here -->
-        <source src="images/gnn_with_mpc_with_cost.MP4"
-        type="video/mp4">
-      </video>
-      <div class="content has-text-justified">
-        <p>
-          This video shows the performance of our model on CARLA. It was trained with collision cost and data augmentation. Data from other vehicles is also aggregated by the model.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<section class="hero teaser" id="Video-Introduction-2">
-  <div class="container is-max-desktop">
-    <div class="hero-body">
-      <h2 class="title is-3">Baseline Model</h2>
-      <video poster="" id="tree" autoplay controls muted loop height="100%">
-        <!-- Your video here -->
-        <source src="images/mlp_new.MP4"
-        type="video/mp4">
-      </video>
-      <div class="content has-text-justified">
-        <p>
-          Similar to our model, however data aggregation from surrounding vehicles is not done. Clearly, the performance deterioration is significant.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-
 <!-- Paper abstract -->
 <section class="section hero is-small" id="Abstract">
   <div class="container is-max-desktop">
@@ -183,225 +145,46 @@
   </div>
 </section>
 
-<!-- <section>
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-four-fifths">
-      <p>
-      Our proposed U Attention Block:
-      </p>
-      </div>
-    </div>
-  </div>
-  <br /> 
-  <div class="container is-max-desktop">
-    <div class="columns is-centered is-four-fifths">
-      <div class="column is-four-fifths is-centered">
-        <img src="images/U-Attention_Block.png" alt="MY ALT TEXT"/>
-      </div> 
-    </div>
-  </div>
-  <br /> 
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-four-fifths">
-      <p>
-        Please refer to <a href="https://github.com/yininghase/multi-agent-control/blob/main/supplementary.pdf" target="_blank">here</a> for the detailed explanation of U Attention Block.
-      </p>
-      </div>
-    </div>
-  </div>  
-  <br /> 
-  <br /> 
-</section> -->
 
-
-<!-- <section class="hero is-small is-light" id="Results-of-our-Model">
-  <div class="hero-body">
-    <div class="container">
-      <h2 class="title is-3">
-        Results of our Model
-      </h2>
-      <div id="results-carousel" class="carousel results-carousel" data-interval="30">
-        <div class="item">
-          <h2 class="subtitle has-text-centered">
-            Scenario 1: 6 Vehicles and 1 Obstacle
-          </h2>
-          <div class="columns is-four-fifths is-centered">
-            <img src="images/IterGNN_UAttentionConv_1.gif" alt="MY ALT TEXT"/>
-          </div>
-        </div>
-        <div class="item">
-          <h2 class="subtitle has-text-centered">
-            Scenario 2: 6 Vehicles and 2 Obstacles
-          </h2>
-          <div class="columns is-four-fifths is-centered">
-            <img src="images/IterGNN_UAttentionConv_2.gif" alt="MY ALT TEXT"/>
-          </div>
-        </div>
-        <div class="item">
-          <h2 class="subtitle has-text-centered">
-            Scenario 3: 6 Vehicles and 3 Obstacles
-          </h2>
-          <div class="columns is-four-fifths is-centered">
-            <img src="images/IterGNN_UAttentionConv_3.gif" alt="MY ALT TEXT"/>
-          </div>
-        </div>
-        <div class="item">
-          <h2 class="subtitle has-text-centered">
-            Scenario 4: 6 Vehicles and 3 Obstacles
-          </h2>
-          <div class="columns is-four-fifths is-centered">
-            <img src="images/IterGNN_UAttentionConv_4.gif" alt="MY ALT TEXT"/>
-          </div>
-        </div>
+<section class="hero teaser" id="Video-Introduction">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="title is-3">Our Model</h2>
+      <video poster="" id="tree" autoplay controls muted loop height="100%">
+        <!-- Your video here -->
+        <source src="images/gnn_with_mpc_with_cost.MP4"
+        type="video/mp4">
+      </video>
+      <div class="content has-text-justified">
+        <p>
+          This video shows the performance of our model on CARLA. It was trained with collision cost and data augmentation. Data from other vehicles is also aggregated by the model.
+        </p>
       </div>
     </div>
   </div>
-  <br /> 
 </section>
 
 
-<section class="hero is-small"  id="Attention-Mechanism-of-our-Model">
-  <div class="hero-body">
-    <div class="container">
-      <h2 class="title is-3">
-          Attention Mechanism of our Model
-      </h2>
-      <div class="columns is-centered is-four-fifths">
-        <div class="column is-four-fifths is-centered">
-            <img src="images/IterGNN_UAttentionConv_Show_Attention.gif" alt="MY ALT TEXT"/>
-        </div> 
+<section class="hero teaser" id="Video-Introduction-2">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <div class="columns is-centered has-text-centered">
+        <h2 class="title is-3">Baseline Model</h2>
+        <video poster="" id="tree" autoplay controls muted loop height="100%">
+          <!-- Your video here -->
+          <source src="images/mlp_new.MP4"
+          type="video/mp4">
+        </video>
+        <div class="content has-text-justified">
+          <p>
+            Similar to our model, however data aggregation from surrounding vehicles is not done. Clearly, the performance deterioration is significant.
+          </p>
+        </div>
       </div>
-      <h2>
-        The GIF above shows how the attention changes when the vehicles are moving. We visualize the mean of attention logits from all the graph attention layers of our model. The rows in the attention matrix correspond to the vehicle of interest. The columns show which vehicles/obstacle is being attended to. A lighter shade in the attention matrix depicts high attention and a darker shade represents lack of attention.
-      </h2>
     </div>
   </div>
-  <br /> 
 </section>
 
-
-<section class="hero is-small is-light" id="Comparison-with-Other-Models">
-  <div class="hero-body">
-    <div class="container">
-      <h2 class="title is-3">
-          Comparison with Other Models
-      </h2>
-      <div id="results-carousel" class="carousel results-carousel" data-interval="30">
-        <div class="item">
-          <table style="table-layout: fixed; word-break: break-all; word-wrap: break-word;" width="100%">
-              <td width="52%">
-                <div class="container">
-                  <h2 class="subtitle has-text-centered"> Our Model</h2>
-                  <div class="columns is-centered">
-                    <img src="./images/IterGNN_UAttentionConv_3.gif">
-                  </div>
-                </div> 
-              </td>
-              <td width="48%">
-                <div class="container">
-                  <table style="table-layout: fixed; word-break: break-all; word-wrap: break-word;">
-                      <tr>
-                        <td width="24%">
-                          <div class="container">
-                            <h2 class="subtitle has-text-centered"> GAINet</h2>
-                            <div class="columns is-centered is-four-fifths">
-                              <img src="./images/IterGNN_GAINet_3.gif">
-                            </div>
-                          </div>
-                        </td>
-                        <td width="24%">
-                          <div class="container">
-                            <h2 class="subtitle has-text-centered"> TransformerConv</h2>
-                            <div class="columns is-centered is-four-fifths">
-                              <img src="./images/IterGNN_TransformerConv_3.gif">
-                            </div>
-                          </div> 
-                        </td>
-                      </tr>
-                      <tr>
-                        <td width="24%">
-                          <div class="container">
-                            <h2 class="subtitle has-text-centered">EdgeConv</h2>
-                            <div class="columns is-centered is-four-fifths">
-                              <img src="./images/IterGNN_EdgeConv_3.gif">
-                            </div>
-                          </div> 
-                        </td>
-                        <td width="24%">
-                          <div class="container">
-                            <h2 class="subtitle has-text-centered">No Edge</h2>
-                            <div class="columns is-centered is-four-fifths">
-                              <img src="./images/IterGNN_UAttentionConv_NoEdge_3.gif">
-                            </div>
-                          </div> 
-                        </td>
-                      </tr>
-                  </table>
-                </div>
-              </td>
-          </table>
-        </div>
-        <div class="item">
-          <table style="table-layout: fixed; word-break: break-all; word-wrap: break-word;" width="100%">
-              <td width="52%">
-                <div class="container">
-                  <h2 class="subtitle has-text-centered"> Our Model</h2>
-                  <div class="columns is-centered">
-                    <img src="./images/IterGNN_UAttentionConv_4.gif">
-                  </div>
-                </div> 
-              </td>
-              <td width="48%">
-                <div class="container">
-                  <table style="table-layout: fixed; word-break: break-all; word-wrap: break-word;">
-                      <tr>
-                        <td width="24%">
-                          <div class="container">
-                            <h2 class="subtitle has-text-centered"> GAINet</h2>
-                            <div class="columns is-centered is-four-fifths">
-                              <img src="./images/IterGNN_GAINet_4.gif">
-                            </div>
-                          </div>
-                        </td>
-                        <td width="24%">
-                          <div class="container">
-                            <h2 class="subtitle has-text-centered"> TransformerConv</h2>
-                            <div class="columns is-centered is-four-fifths">
-                              <img src="./images/IterGNN_TransformerConv_4.gif">
-                            </div>
-                          </div> 
-                        </td>
-                      </tr>
-                      <tr>
-                        <td width="24%">
-                          <div class="container">
-                            <h2 class="subtitle has-text-centered">EdgeConv</h2>
-                            <div class="columns is-centered is-four-fifths">
-                              <img src="./images/IterGNN_EdgeConv_4.gif">
-                            </div>
-                          </div> 
-                        </td>
-                        <td width="24%">
-                          <div class="container">
-                            <h2 class="subtitle has-text-centered">No Edge</h2>
-                            <div class="columns is-centered is-four-fifths">
-                              <img src="./images/IterGNN_UAttentionConv_NoEdge_4.gif">
-                            </div>
-                          </div> 
-                        </td>
-                      </tr>
-                  </table>
-                </div>
-              </td>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-  <br /> 
-</section> -->
 
 
 <!--BibTex citation -->
