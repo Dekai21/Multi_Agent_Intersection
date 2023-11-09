@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
   <!-- Replace the content tag with appropriate information -->
-  <meta name="description" content="Multi-Vehicle Trajectory Prediction at Intersections using State and Intention Information">
-  <meta property="og:title" content="Multi-Vehicle Trajectory Prediction at Intersections using State and Intention Information"/>
-  <meta property="og:description" content="Multi-Vehicle Trajectory Prediction at Intersections using State and Intention Information"/>
+  <meta name="description" content="Multi-Vehicle Trajectory Prediction and Control at Intersections using State and Intention Information">
+  <meta property="og:title" content="Multi-Vehicle Trajectory Prediction and Control at Intersections using State and Intention Information"/>
+  <meta property="og:description" content="Multi-Vehicle Trajectory Prediction and Control at Intersections using State and Intention Information"/>
   <meta property="og:url" content="https://Dekai21.github.io/Multi_Agent_Intersection/"/>
   <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
   <!-- <meta property="og:image" content="images/overview.jpg" /> -->
@@ -22,7 +22,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-  <title>Multi-Vehicle Trajectory Prediction at Intersections using State and Intention Information</title>
+  <title>Multi-Vehicle Trajectory Prediction and Control at Intersections using State and Intention Information</title>
   <link rel="icon" type="image/x-icon" href="static/images/favicon.icon">
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
   rel="stylesheet">
@@ -50,7 +50,7 @@
       <div class="container is-max-desktop">
         <div class="columns is-centered">
           <div class="column has-text-centered">
-            <h1 class="title is-1 publication-title">Multi-Vehicle Trajectory Prediction at Intersections using State and Intention Information</h1>
+            <h1 class="title is-1 publication-title">Multi-Vehicle Trajectory Prediction and Control at Intersections using State and Intention Information</h1>
             <div class="is-size-5 publication-authors">
               <!-- Paper authors -->
               <span class="author-block">
@@ -129,7 +129,7 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Traditional approaches to predicting the future trajectories of road agents typically rely on historical trajectory information. In contrast, our work introduces a novel strategy by leveraging a graph neural network that solely depends on the current state and intended direction to forecast the trajectories of multiple agents at intersections. Message passing of information between the multiple vehicles provides a more holistic overview of the environment. Importantly, the incorporation of intention information equips the trained model with the capability to be easily deployed in multi-agent control scenarios.  Our experiment shows that the model's output can properly adapt to changing intentions. This would not be possible with only past trajectory information. To the best of our knowledge, this work is among the first to provide a thorough investigation and discussion into the disparity between offline metrics and online metrics for the task of multi-agent control. We particularly show why conducting only offline evaluation would not suffice thereby necessitating online evaluation. Therefore, we demonstrate the superiority of utilizing intention information rather than  past trajectories especially in online scenarios. Deep learning models are known for suffering from the problem of domain shift when the training and testing distributions are different. Therefore,  we additionally show our model's robustness to domain shifts  through experiments conducted on two distinct simulation platforms, SUMO and CARLA.
+            Traditional deep learning approaches for prediction of future trajectory of multiple road agents rely on knowing information about their past trajectory. In contrast, this work utilizes information of only the current state and intended direction to predict the future trajectory of multiple vehicles at intersections. Incorporating intention information has two distinct advantages: 1) It allows to not just predict the future trajectory but also control the multiple vehicles. 2) By manipulating the intention, the interaction among the vehicles is adapted accordingly to achieve desired behavior. Both these advantages would otherwise not be possible with using only past trajectory information. Our model utilizes message passing of information between the vehicle nodes for a more holistic overview of the environment, resulting in better trajectory prediction and control of the vehicles. This work also provides a thorough investigation and discussion into the disparity between offline and online metrics for the task of multi-agent control. We particularly show why conducting only offline evaluation would not suffice, thereby necessitating online evaluation. We demonstrate the superiority of utilizing intention information rather than past trajectory in online scenarios. Lastly, we show the capability of our method in adapting to different domains through experiments conducted on two distinct simulation platforms i.e. SUMO and CARLA.
           </p>
         </div>
       </div>
@@ -190,12 +190,13 @@
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
     <pre><code>
-      @article{zhu2023multi,
-        title={Multi-Vehicle Trajectory Prediction at Intersections using State and Intention Information},
-        author={Zhu, Dekai and Khan, Qadeer and Cremers, Daniel},
-        journal={arXiv preprint arXiv:2301.02561},
-        year={2023}
-      }</code></pre>
+@article{zhu2023multi,
+  title={Multi-Vehicle Trajectory Prediction at Intersections using State and Intention Information},
+  author={Zhu, Dekai and Khan, Qadeer and Cremers, Daniel},
+  journal={arXiv preprint arXiv:2301.02561},
+  year={2023}
+}
+    </code></pre>
   </div>
 </section>
 <!--End BibTex citation -->
