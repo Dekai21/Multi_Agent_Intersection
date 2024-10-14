@@ -1,6 +1,26 @@
-# Multi-Vehicle Trajectory Prediction and Control at Intersections using State and Intention Information
+<div align="center">
 
-[Project page](https://dekai21.github.io/Multi_Agent_Intersection/) | [Paper](https://www.sciencedirect.com/science/article/pii/S0925231223013437) | [ArXiv (old version)](https://arxiv.org/abs/2301.02561)
+# Multi-Vehicle Trajectory Prediction and Control at Intersections using State and Intention Information
+  
+### [Project Page](https://dekai21.github.io/Multi_Agent_Intersection/) | [Paper](https://www.sciencedirect.com/science/article/pii/S0925231223013437) | [Arxiv (old)](https://arxiv.org/abs/2301.02561)
+  
+[Dekai Zhu](https://dekai21.github.io/)<sup>1</sup>,
+[Qadeer Khan](https://cvg.cit.tum.de/members/khamuham)<sup>1,2</sup>
+[Daniel Cremers](https://cvg.cit.tum.de/members/cremers)<sup>1,2</sup><br>
+<sup>1</sup>Technical University of Munich<br>
+<sup>2</sup>Munich Center for Machine Learning (MCML)<br>
+  
+[![sumo](https://img.shields.io/badge/-SUMO-green)](https://sumo.dlr.de/docs/index.html)
+[![carla](https://img.shields.io/badge/-CARLA-black)](https://carla.org/)
+[![pytorch](https://img.shields.io/badge/PyTorch_1.11-ee4c2c?logo=pytorch&logoColor=white)](https://pytorch.org/get-started/locally/)
+[![python](https://img.shields.io/badge/-Python_3.7-blue?logo=python&logoColor=white)](https://www.python.org/downloads/release/python-370/)
+
+![](images/gnn_gif.gif)
+</div>
+
+<!-- # Multi-Vehicle Trajectory Prediction and Control at Intersections using State and Intention Information
+
+[Project page](https://dekai21.github.io/Multi_Agent_Intersection/) | [Paper](https://www.sciencedirect.com/science/article/pii/S0925231223013437) | [ArXiv (old version)](https://arxiv.org/abs/2301.02561) -->
 
 ## Abstract
 Traditional deep learning approaches for prediction of future trajectory of multiple road agents rely on knowing information about their past trajectory. In contrast, this work utilizes information of only the current state and intended direction to predict the future trajectory of multiple vehicles at intersections. Incorporating intention information has two distinct advantages: 1) It allows to not just predict the future trajectory but also control the multiple vehicles. 2) By manipulating the intention, the interaction among the vehicles is adapted accordingly to achieve desired behavior. Both these advantages would otherwise not be possible with using only past trajectory information. Our model utilizes message passing of information between the vehicle nodes for a more holistic overview of the environment, resulting in better trajectory prediction and control of the vehicles. This work also provides a thorough investigation and discussion into the disparity between offline and online metrics for the task of multi-agent control. We particularly show why conducting only offline evaluation would not suffice, thereby necessitating online evaluation. We demonstrate the superiority of utilizing intention information rather than past trajectory in online scenarios. Lastly, we show the capability of our method in adapting to different domains through experiments conducted on two distinct simulation platforms i.e. SUMO and CARLA.
