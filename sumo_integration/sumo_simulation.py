@@ -579,7 +579,7 @@ class SumoSimulation(object):
                     next_y = pos[1] + global_delta[1]
                     angle = get_yaw(tgt_agent_ids[tgt], np.array([next_x, next_y]), self.yaw_dict)
                     try:
-                        traci.vehicle.moveToXY(vehicle_id, edgeID=-1, lane=-1, x=next_x, y=next_y, angle=angle, keepRoute=2)
+                        traci.vehicle.moveToXY(vehicle_id, edgeID=-1, lane=-1, x=next_x, y=next_y, angle=angle, keepRoute=1)
                         # traci.vehicle.moveToXY(vehicle_id, edgeID=-1, lane=-1, x=next_x, y=next_y, keepRoute=2)
                     except:
                         pdb.set_trace()
