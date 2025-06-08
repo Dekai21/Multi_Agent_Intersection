@@ -142,10 +142,12 @@ python generate_csv.py --num_seconds ${length of the generated sequence (unit: s
 ```
 The data (.csv format) will be generated in `csv` folder.
 
-Note: the SUMO map used in the above execution is `sumo/map/simple_separate_10m.net.xml`. In case you want to design a new map, you can use `netedit` by running:
-```bash
+Note: the SUMO map used in the above execution is `sumo/map/simple_separate_10m.net.xml`. In case you want to design a new map, you can use `netedit` (or `netedit.exe` on Windows) to generate a map in `.xml` format. 
+Then you can use `netconvert` to convert the map to OpenDRIVE networks (`.xodr`).
+More informations are available [here](https://sumo.dlr.de/docs/Networks/Export.html#opendrive).
+<!-- ```bash
 netedit     # or execute netedit.exe on Windows
-```
+``` -->
 
 ### 2) Preprocess the data
 In this project, we use MPC to augment the training set, which aims to improve the robustness of vehicle when it deviate from the center of the lane. 
